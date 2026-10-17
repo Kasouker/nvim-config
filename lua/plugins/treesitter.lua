@@ -6,7 +6,11 @@ return {
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			-- Parsers installés d'office
-			ensure_installed = { "c", "lua", "vim", "vimdoc", "bash", "markdown", "markdown_inline" },
+			ensure_installed = {
+				"c", "cpp", "typescript", "tsx", "javascript", "java", "python",
+				"html", "css", "json", "lua", "vim", "vimdoc", "bash",
+				"markdown", "markdown_inline",
+			},
 			-- Installe automatiquement le parser quand tu ouvres un nouveau type de fichier
 			auto_install = true,
 			highlight = { enable = true },

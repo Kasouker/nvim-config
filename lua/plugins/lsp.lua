@@ -10,7 +10,12 @@ return {
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = { "lua_ls" },
+			-- ts_ls a besoin de tsserver.js, absent de TypeScript 7 → remplacé par tsc
+			automatic_enable = { exclude = { "ts_ls" } },
 		})
+
+		-- TypeScript 7 : serveur intégré (tsc --lsp), pris dans node_modules du projet
+		vim.lsp.enable("tsc")
 
 		-- Les serveurs envoient leurs suggestions à nvim-cmp
 		vim.lsp.config("*", {

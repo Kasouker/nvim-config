@@ -29,7 +29,11 @@ return {
 			},
 		}
 		require("lualine").setup({
-			options = { theme = theme, globalstatus = true },
+			options = {
+                theme = theme,
+                globalstatus = true,
+                disabled_filetypes = { statusline = { "dashboard" } },
+            },
 		})
 	end,
 }
