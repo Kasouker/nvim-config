@@ -103,7 +103,7 @@ Fichiers C : vraies tabulations. Web (HTML, CSS, JS, TS, JSON) : 2 espaces. Le r
 
 ## WezTerm
 
-Le terminal qui va avec : fond d'écran, barre d'onglets dorée, panneaux, et le compteur
+Le terminal qui va avec : fond d'écran, barre d'onglets dorée, panneaux, et en option le compteur
 [logtime](https://github.com/Kasouker/logtime.wezterm). Son installation (sans sudo aussi) est dans le dépôt
 [wezterm-config](https://github.com/Kasouker/wezterm-config).
 
