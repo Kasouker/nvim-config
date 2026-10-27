@@ -70,9 +70,6 @@ Puis :
 git clone https://github.com/Kasouker/nvim-config.git ~/.config/nvim
 ```
 
-> Le dépôt est **privé** : git te demande ton nom GitHub, puis un **token** à la place du mot de passe
-> (GitHub → Settings → Developer settings → Personal access tokens). Avec `gh auth login`, plus besoin du token.
-
 ## 3. Premier lancement
 
 ```bash
@@ -99,6 +96,12 @@ unzip -oq IosevkaTerm.zip && rm IosevkaTerm.zip && fc-cache -f && cd ~
 
 C'est la police de ma config WezTerm, qui la choisit toute seule. Avec un autre terminal, choisis
 « IosevkaTerm Nerd Font » dans ses réglages.
+
+## Des plugins pour une seule machine
+
+Les fichiers rangés dans `lua/plugins_local/` sont chargés comme les autres plugins, mais **git les ignore** : ils
+restent sur la machine et ne partent jamais sur GitHub. Pratique pour un plugin dont tu n'as besoin qu'à un endroit
+(la norminette à l'école, par exemple). Il suffit d'y mettre un fichier comme ceux de `lua/plugins/`.
 
 ## Raccourcis
 

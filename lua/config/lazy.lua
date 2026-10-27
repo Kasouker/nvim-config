@@ -8,6 +8,12 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- lua/plugins_local/ : les plugins de cette machine seulement (ignorés par git, voir .gitignore)
+local spec = { { import = "plugins" } }
+if (vim.uv or vim.loop).fs_stat(vim.fn.stdpath("config") .. "/lua/plugins_local") then
+	table.insert(spec, { import = "plugins_local" })
+end
+
 require("lazy").setup({
-	spec = { { import = "plugins" } },
+	spec = spec,
 })
