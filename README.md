@@ -8,10 +8,10 @@ machine partagée…) comme sur ton propre PC.
 
 ## Installation (Linux, sans sudo)
 
-Une seule ligne à copier :
+Une seule ligne à copier (elle marche aussi pour mettre à jour : relance-la quand tu veux) :
 
 ```bash
-git clone https://github.com/Kasouker/nvim-config.git ~/.config/nvim && bash ~/.config/nvim/install.sh
+{ [ -f ~/.config/nvim/install.sh ] || git clone https://github.com/Kasouker/nvim-config.git ~/.config/nvim; } && git -C ~/.config/nvim pull -q && bash ~/.config/nvim/install.sh
 ```
 
 Le script `install.sh` met tout dans ton dossier personnel (`~/.local`) et saute ce qui est déjà là :
