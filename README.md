@@ -24,20 +24,18 @@ Sans sudo et s'il en manque un : demande à l'admin de la machine.
 
 ## 1. Installer les outils (sans sudo)
 
-Copie-colle tout le bloc dans un terminal (Linux x86_64) :
+Copie-colle tout le bloc dans un terminal (Linux x86_64). Il installe Neovim 0.11.6 (la version avec laquelle la
+config est testée), ripgrep (chercher du texte : `<Espace>fg`) et lazygit (git dans nvim : `<Espace>gg`) :
 
 ```bash
 mkdir -p ~/.local/bin ~/.local/opt && cd ~/.local/opt
 
-# Neovim 0.11.6 (la version avec laquelle la config est testée)
 curl -fsSL https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-x86_64.tar.gz | tar xz
 ln -sf ~/.local/opt/nvim-linux-x86_64/bin/nvim ~/.local/bin/nvim
 
-# ripgrep (chercher du texte : <Espace>fg)
 url=$(curl -fsSL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep -o 'https://[^"]*x86_64-unknown-linux-musl.tar.gz' | head -1)
 curl -fsSL "$url" | tar xz && cp ripgrep-*/rg ~/.local/bin/ && rm -rf ripgrep-*
 
-# lazygit (git dans nvim : <Espace>gg)
 url=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep -o 'https://[^"]*linux_x86_64.tar.gz' | head -1)
 curl -fsSL "$url" | tar xz -C ~/.local/bin lazygit
 
@@ -47,9 +45,11 @@ cd ~
 Puis ajoute `~/.local/bin` au `PATH` (une seule fois) et recharge le terminal :
 
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc   # ou ~/.bashrc si tu es sous bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 exec $SHELL
 ```
+
+(Sous bash, remplace `~/.zshrc` par `~/.bashrc`.)
 
 Vérifie : `nvim --version` doit afficher `NVIM v0.11.6`.
 
