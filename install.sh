@@ -47,6 +47,8 @@ if command -v rg >/dev/null; then echo "ripgrep déjà là"; else dl BurntSushi/
 if command -v lazygit >/dev/null; then echo "lazygit déjà là"; else dl jesseduffield/lazygit linux_x86_64.tar.gz lazygit && echo "lazygit installé"; fi
 
 step "~/.local/bin dans le PATH"
+# Le fichier de démarrage du shell utilisé (~/.zshrc sous zsh) est créé s'il n'existe pas encore
+touch "$HOME/.$(basename "${SHELL:-/bin/bash}")rc"
 for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
 	if [ -e "$rc" ] && ! grep -q '\.local/bin' "$rc"; then
 		printf '\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$rc"
@@ -55,8 +57,15 @@ for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
 done
 
 step "Plugins (quelques minutes la première fois)"
-nvim --headless "+Lazy! restore" +qa
-echo "plugins installés"
+# Les messages de git (très bavards) vont dans un journal, affiché seulement en cas de problème
+log="$HOME/.local/state/nvim-install.log"
+mkdir -p "$(dirname "$log")"
+if nvim --headless "+Lazy! restore" +qa >"$log" 2>&1 && [ -d "$HOME/.local/share/nvim/lazy/lazy.nvim" ]; then
+	echo "plugins installés ($(ls "$HOME/.local/share/nvim/lazy" | wc -l))"
+else
+	tail -20 "$log"
+	echo "problème pendant l'installation des plugins : journal complet dans $log"
+fi
 
 step "Terminé"
 echo "Ouvre un nouveau terminal (ou : exec \$SHELL), puis lance nvim."

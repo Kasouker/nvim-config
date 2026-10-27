@@ -6,83 +6,30 @@ Elle va avec ma config WezTerm (voir [WezTerm](#wezterm) plus bas).
 L'installation ci-dessous met **tout dans ton dossier personnel** (`~/.local`) : elle marche **sans sudo** (ordis de l'école,
 machine partagée…) comme sur ton propre PC.
 
-## Prérequis
+## Installation (Linux, sans sudo)
 
-Ces outils sont presque toujours déjà là. Vérifie :
-
-```bash
-git --version && curl --version | head -1 && cc --version | head -1 && make --version | head -1
-```
-
-S'il en manque un **et que tu as sudo** (Ubuntu / Debian) :
+Une seule ligne à copier :
 
 ```bash
-sudo apt install -y git curl tar unzip gcc make xclip
+git clone https://github.com/Kasouker/nvim-config.git ~/.config/nvim && bash ~/.config/nvim/install.sh
 ```
 
-Sans sudo et s'il en manque un : demande à l'admin de la machine.
+Le script `install.sh` met tout dans ton dossier personnel (`~/.local`) et saute ce qui est déjà là :
 
-## 1. Installer les outils (sans sudo)
+- **Neovim 0.11.6** (la version avec laquelle la config est testée), s'il est absent ou plus ancien que la 0.11 ;
+- **ripgrep** (chercher du texte : `<Espace>fg`) et **lazygit** (git dans nvim : `<Espace>gg`), s'ils sont absents ;
+- `~/.local/bin` dans ton `PATH`, si besoin ;
+- **les plugins**, aux versions de `lazy-lock.json` (quelques minutes la première fois).
 
-Copie-colle tout le bloc dans un terminal (Linux x86_64). Il installe Neovim 0.11.6 (la version avec laquelle la
-config est testée), ripgrep (chercher du texte : `<Espace>fg`) et lazygit (git dans nvim : `<Espace>gg`) :
+Ensuite, ouvre un nouveau terminal (ou `exec $SHELL`) et lance `nvim`. À la première ouverture d'un type de fichier,
+sa coloration se compile toute seule (quelques secondes), et le serveur Lua s'installe à l'ouverture d'un fichier
+`.lua`.
 
-```bash
-mkdir -p ~/.local/bin ~/.local/opt && cd ~/.local/opt
-
-curl -fsSL https://github.com/neovim/neovim/releases/download/v0.11.6/nvim-linux-x86_64.tar.gz | tar xz
-ln -sf ~/.local/opt/nvim-linux-x86_64/bin/nvim ~/.local/bin/nvim
-
-url=$(curl -fsSL https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep -o 'https://[^"]*x86_64-unknown-linux-musl.tar.gz' | head -1)
-curl -fsSL "$url" | tar xz && cp ripgrep-*/rg ~/.local/bin/ && rm -rf ripgrep-*
-
-url=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep -o 'https://[^"]*linux_x86_64.tar.gz' | head -1)
-curl -fsSL "$url" | tar xz -C ~/.local/bin lazygit
-
-cd ~
-```
-
-Puis ajoute `~/.local/bin` au `PATH` (une seule fois) et recharge le terminal :
-
-```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
-exec $SHELL
-```
-
-(Sous bash, remplace `~/.zshrc` par `~/.bashrc`.)
-
-Vérifie : `nvim --version` doit afficher `NVIM v0.11.6`.
-
-> Tu as déjà ces outils (assez récents, Neovim **0.11 ou plus**) ? Tu peux sauter cette étape.
-
-## 2. Installer la config
-
-Si tu as déjà une config Neovim, mets-la de côté d'abord :
-
-```bash
-[ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.bak
-[ -d ~/.local/share/nvim ] && mv ~/.local/share/nvim ~/.local/share/nvim.bak
-```
-
-Puis :
-
-```bash
-git clone https://github.com/Kasouker/nvim-config.git ~/.config/nvim
-```
-
-## 3. Premier lancement
-
-```bash
-nvim
-```
-
-Au premier lancement, tout s'installe tout seul (quelques minutes, laisse faire) :
-
-- les plugins (lazy.nvim) ;
-- la coloration du code (treesitter compile ses parsers avec `cc`) ;
-- le serveur Lua (Mason, lors de l'ouverture d'un fichier `.lua`).
-
-Quand c'est fini, quitte (`:qa`) et relance `nvim`.
+> Il faut `git`, `curl`, `tar`, `make` et un compilateur C (`cc`) : ils sont presque toujours déjà là. S'il en manque
+> un et que tu as sudo : `sudo apt install -y git curl tar gcc make xclip`. Sans sudo : demande à l'admin.
+>
+> Tu as déjà une config Neovim ? Le `git clone` refusera de l'écraser : mets-la d'abord de côté avec
+> `mv ~/.config/nvim ~/.config/nvim.bak` (et `mv ~/.local/share/nvim ~/.local/share/nvim.bak` pour ses plugins).
 
 ### Les icônes
 
