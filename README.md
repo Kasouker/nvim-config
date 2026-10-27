@@ -1,22 +1,23 @@
 # nvim-config
 
-Ma config Neovim : thème sombre doré, explorateur de fichiers, recherche, autocomplétion, LSP, norminette et header 42.
+Ma config Neovim pour coder : thème sombre doré, explorateur de fichiers, recherche, autocomplétion et LSP.
+Elle va avec ma config WezTerm (voir [WezTerm](#wezterm) plus bas).
 
 L'installation ci-dessous met **tout dans ton dossier personnel** (`~/.local`) : elle marche **sans sudo** (ordis de l'école,
 machine partagée…) comme sur ton propre PC.
 
 ## Prérequis
 
-Ces outils sont presque toujours déjà là (c'est le cas sur les machines de 42). Vérifie :
+Ces outils sont presque toujours déjà là. Vérifie :
 
 ```bash
-git --version && curl --version | head -1 && cc --version | head -1 && make --version | head -1 && python3 --version
+git --version && curl --version | head -1 && cc --version | head -1 && make --version | head -1
 ```
 
 S'il en manque un **et que tu as sudo** (Ubuntu / Debian) :
 
 ```bash
-sudo apt install -y git curl tar gcc make python3 python3-venv xclip
+sudo apt install -y git curl tar unzip gcc make xclip
 ```
 
 Sans sudo et s'il en manque un : demande à l'admin de la machine.
@@ -39,10 +40,6 @@ curl -fsSL "$url" | tar xz && cp ripgrep-*/rg ~/.local/bin/ && rm -rf ripgrep-*
 # lazygit (git dans nvim : <Espace>gg)
 url=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep -o 'https://[^"]*linux_x86_64.tar.gz' | head -1)
 curl -fsSL "$url" | tar xz -C ~/.local/bin lazygit
-
-# pipx (installe la norminette)
-python3 -m venv ~/.local/opt/pipx && ~/.local/opt/pipx/bin/pip install -q pipx
-ln -sf ~/.local/opt/pipx/bin/pipx ~/.local/bin/pipx
 
 cd ~
 ```
@@ -86,7 +83,6 @@ Au premier lancement, tout s'installe tout seul (quelques minutes, laisse faire)
 
 - les plugins (lazy.nvim) ;
 - la coloration du code (treesitter compile ses parsers avec `cc`) ;
-- la norminette (avec pipx) ;
 - le serveur Lua (Mason, lors de l'ouverture d'un fichier `.lua`).
 
 Quand c'est fini, quitte (`:qa`) et relance `nvim`.
@@ -96,22 +92,13 @@ Quand c'est fini, quitte (`:qa`) et relance `nvim`.
 Si tu vois des carrés ou des `?` à la place des icônes, ton terminal n'a pas de **Nerd Font**. Sans sudo :
 
 ```bash
-mkdir -p ~/.local/share/fonts && cd ~/.local/share/fonts
-curl -fsSLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
-unzip -o JetBrainsMono.zip && rm JetBrainsMono.zip && fc-cache -f && cd ~
+mkdir -p ~/.local/share/fonts/IosevkaTerm && cd ~/.local/share/fonts/IosevkaTerm
+curl -fsSLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/IosevkaTerm.zip
+unzip -oq IosevkaTerm.zip && rm IosevkaTerm.zip && fc-cache -f && cd ~
 ```
 
-Puis choisis « JetBrainsMono Nerd Font » dans les réglages de ton terminal.
-
-## Pour toi uniquement : le header 42
-
-Le header (`F1`) est signé à mon nom. Si quelqu'un d'autre utilise la config, il change ses identifiants dans
-`lua/plugins/42header.lua` :
-
-```lua
-vim.g.user = "maxpignon"
-vim.g.mail = "maxpignon@student.42angouleme.fr"
-```
+C'est la police de ma config WezTerm, qui la choisit toute seule. Avec un autre terminal, choisis
+« IosevkaTerm Nerd Font » dans ses réglages.
 
 ## Raccourcis
 
@@ -128,7 +115,6 @@ vim.g.mail = "maxpignon@student.42angouleme.fr"
 | `<Espace>fr` | Fichiers récents |
 | `<Espace>gg` | LazyGit |
 | `<Espace>u` | Historique des annulations |
-| `F1` | Header 42 |
 
 Quand un serveur de langage est actif (LSP) :
 
@@ -160,12 +146,27 @@ En mode insertion :
 | nvim-cmp + LuaSnip | Autocomplétion |
 | nvim-autopairs | Fermeture automatique des parenthèses, guillemets et `<` |
 | indent-blankline / rainbow-delimiters | Guides d'indentation et parenthèses colorées |
-| norminette42.nvim | La norminette à chaque sauvegarde des fichiers C |
-| 42-header.nvim | Le header 42 |
 | lazygit.nvim / undotree | Git et historique d'annulations |
 | smear-cursor | Traînée animée derrière le curseur |
 
-Fichiers C : vraies tabulations (norme 42). Web (HTML, CSS, JS, TS, JSON) : 2 espaces. Le reste : 4 espaces.
+Fichiers C : vraies tabulations. Web (HTML, CSS, JS, TS, JSON) : 2 espaces. Le reste : 4 espaces.
+
+## WezTerm
+
+Le terminal qui va avec : fond d'écran, barre d'onglets dorée, panneaux, et le compteur
+[logtime](https://github.com/Kasouker/logtime.wezterm). Son installation (sans sudo aussi) est dans le dépôt
+[wezterm-config](https://github.com/Kasouker/wezterm-config).
+
+Raccourcis des panneaux :
+
+| Touche | Action |
+|---|---|
+| `Ctrl+Shift+d` / `Ctrl+Shift+e` | Couper le panneau en deux (côte à côte / l'un sous l'autre) |
+| `Ctrl+Shift+h j k l` | Aller au panneau de gauche / du bas / du haut / de droite |
+| `Ctrl+Shift+w` | Fermer le panneau |
+| `Ctrl+Shift+t` | Nouvel onglet |
+
+Pratique : nvim d'un côté, un terminal pour `make` ou `git` de l'autre.
 
 ## Mettre à jour
 
@@ -179,8 +180,7 @@ Puis dans nvim : `:Lazy sync`.
 
 ```bash
 rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
-~/.local/bin/pipx uninstall norminette
-rm -rf ~/.local/opt/nvim-linux-x86_64 ~/.local/opt/pipx ~/.local/bin/{nvim,rg,lazygit,pipx}
+rm -rf ~/.local/opt/nvim-linux-x86_64 ~/.local/bin/{nvim,rg,lazygit}
 ```
 
 (Et remets ton ancienne config si tu l'avais sauvegardée : `mv ~/.config/nvim.bak ~/.config/nvim`.)
