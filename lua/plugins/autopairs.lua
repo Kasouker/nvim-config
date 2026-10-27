@@ -11,6 +11,15 @@ return {
 
 		require("nvim-autopairs").setup({})
 
+		-- « < » se ferme tout seul en « <> », le curseur au milieu ; taper « > » saute par-dessus celui déjà là
+		-- (sauf en HTML : voir after/ftplugin/html.lua)
+
+		local Rule = require("nvim-autopairs.rule")
+
+		local cond = require("nvim-autopairs.conds")
+
+		require("nvim-autopairs").add_rule(Rule("<", ">", "-html"):with_move(cond.move_right()))
+
 
 
 		-- Ajoute la parenthèse quand tu valides une fonction dans les suggestions
